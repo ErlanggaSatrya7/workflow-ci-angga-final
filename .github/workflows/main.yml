@@ -1,0 +1,18 @@
+name: MSML CI Pipeline
+on: [push]
+
+jobs:
+  run-model:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run model training
+        env:
+          DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_USER_TOKEN }}
+        run: python MLProject/modelling_tuning.py
