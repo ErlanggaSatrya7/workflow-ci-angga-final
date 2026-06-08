@@ -1,0 +1,20 @@
+Dokumentasi Workflow Continuous Integration (CI)
+Nama : Erlangga Satrya Husada
+Proyek : Customer Churn Prediction
+
+1. Link Repository GitHub:
+https://github.com/ErlanggaSatrya7/workflow-ci-angga
+
+2. Link Bukti CI (Actions):
+https://github.com/ErlanggaSatrya7/workflow-ci-angga/actions
+
+3. Deskripsi Workflow CI:
+Workflow CI ini diimplementasikan menggunakan layanan GitHub Actions. Pipeline diatur agar secara otomatis tereksekusi setiap kali ada perubahan kode (push) ke dalam repository.
+
+4. Tahapan (Jobs) yang Dijalankan:
+Pipeline CI ini menjalankan langkah-langkah otomatisasi berikut:
+- Melakukan proses checkout kode dari repository.
+- Melakukan setup environment Python.
+- Menginstal dependensi dan library yang dibutuhkan sesuai dengan list di file requirements.txt.
+
+Status: Pipeline CI telah dikonfigurasi dan sukses dieksekusi dengan baik di GitHub Actions.

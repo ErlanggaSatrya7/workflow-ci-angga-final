@@ -1,0 +1,24 @@
+Laporan Eksperimen Sistem Machine Learning
+Nama : Erlangga Satrya Husada
+Proyek : Customer Churn Prediction
+
+1. Deskripsi Dataset:
+Dataset yang digunakan adalah "Telcom Customer Churn". Tujuan dari proyek ini adalah memprediksi kolom target "Churn", yaitu memprediksi apakah pelanggan akan berhenti berlangganan atau tidak. Data yang telah dibersihkan disiapkan dalam file data_siap_latih.csv.
+
+2. Tahapan Preprocessing:
+Pada tahap ini, dataset dibagi menjadi data latih (train) dan data uji (test) dengan rasio 80:20 (test_size=0.2) menggunakan random_state=42 agar hasilnya konsisten.
+
+3. Eksperimen Model:
+Saya melatih model Machine Learning menggunakan algoritma Random Forest Classifier. Saya juga melakukan Hyperparameter Tuning menggunakan GridSearchCV dengan mencoba kombinasi parameter n_estimators (50, 100) dan max_depth (5, 10).
+
+4. Hasil Eksperimen dan Tracking:
+Eksperimen dievaluasi menggunakan tiga metrik utama: Accuracy, Precision, dan Recall. 
+Tracking eksperimen dilakukan menggunakan MLflow yang terhubung langsung ke DagsHub (Link: https://dagshub.com/anggasatrya007/telco-churn-mlops). 
+Seluruh artifak penting seperti file model terbaik, grafik confusion_matrix.png, dan file dataset (data_siap_latih.csv) telah sukses di-log ke dalam sistem.
+
+
+5. Link Repository GitHub:
+https://github.com/ErlanggaSatrya7/workflow-ci-angga
+
+6. Link Bukti CI (Actions):
+https://github.com/ErlanggaSatrya7/workflow-ci-angga/actions
