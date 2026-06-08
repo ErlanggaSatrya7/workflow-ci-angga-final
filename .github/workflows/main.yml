@@ -15,4 +15,6 @@ jobs:
       - name: Run model training
         env:
           DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_USER_TOKEN }}
-        run: python MLProject/modelling_tuning.py
+        run: |
+          cd Membangun_model
+          python modelling_tuning.py
