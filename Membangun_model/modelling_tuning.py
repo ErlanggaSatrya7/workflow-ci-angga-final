@@ -24,6 +24,9 @@ with mlflow.start_run():
     rf = RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42)
     rf.fit(X_train, y_train)
     
+    # TAMBAHKAN INI: Memaksa log model ke DagsHub dengan explicit path
+    mlflow.sklearn.log_model(rf, "model", registered_model_name="TelcoChurnModel")
+
     # Simpan dataset sebagai bukti tambahan
     mlflow.log_artifact("data_siap_latih.csv")
     
