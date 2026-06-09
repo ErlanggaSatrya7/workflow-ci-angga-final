@@ -6,17 +6,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
+          
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          
       - name: Run model training
         env:
           DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_USER_TOKEN }}
         run: |
           cd Membangun_model
           python modelling_tuning.py
+          
+      # Ini bagian krusial untuk memunculkan kotak Artifacts di web
+      - name: Manually Create Artifact Folder
+        run: |
+          mkdir -p artifacts/model
+          # Copy file hasil training ke folder yang akan di-upload
+          cp Membangun_model/*.pkl artifacts/model/ || true
+          cp Membangun_model/requirements.txt artifacts/model/ || true
+          
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: model
+          path: artifacts/model
