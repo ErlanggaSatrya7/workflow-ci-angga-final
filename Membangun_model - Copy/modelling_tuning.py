@@ -19,35 +19,28 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # 3. Buat eksperimen di MLflow
 mlflow.set_experiment("Telco-Churn-Tuning")
 
-with mlflow.start_run():
-    # 4. Hyperparameter Tuning (Mencari parameter terbaik)
-    rf = RandomForestClassifier(random_state=42)
-    params = {'n_estimators': [50, 100], 'max_depth': [5, 10]}
+with mlflow.start_run() as run:
+    # 1. Training model
+    rf = RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42)
+    rf.fit(X_train, y_train)
+
+    # 2. Persiapkan file-file wajib secara lokal agar bisa di-upload
+    # Pastikan file requirements.txt ada di direktori kerja Anda
     
-    grid = GridSearchCV(rf, params, cv=3)
-    grid.fit(X_train, y_train)
+    # 3. Log model dengan struktur folder 'model'
+    # Parameter artifact_path='model' akan membuat folder fisik bernama 'model'
+    mlflow.sklearn.log_model(
+        sk_model=rf,
+        artifact_path="model",
+        registered_model_name="TelcoChurnModel"
+    )
+
+    # 4. Log file pendukung lainnya ke dalam folder 'model' agar masuk ke dalam satu folder
+    # Ini memastikan MLmodel, conda.yaml, dsb. berada di tempat yang benar
+    # Catatan: MLflow secara otomatis memasukkan MLmodel, conda.yaml, python_env.yaml
+    # saat log_model dipanggil.
     
-    best_model = grid.best_estimator_
-    preds = best_model.predict(X_test)
-    
-    # 5. Manual Logging (Sesuai instruksi Kriteria Advanced)
-    mlflow.log_param("best_n_estimators", grid.best_params_['n_estimators'])
-    mlflow.log_param("best_max_depth", grid.best_params_['max_depth'])
-    
-    mlflow.log_metric("accuracy", accuracy_score(y_test, preds))
-    mlflow.log_metric("precision", precision_score(y_test, preds))
-    mlflow.log_metric("recall", recall_score(y_test, preds))
-    
-    # 6. Log Artifact (Menyimpan file tambahan)
-    # Artefak 1: File Model
-    mlflow.sklearn.log_model(best_model, "model")
-    
-    # Artefak 2: Gambar Confusion Matrix
-    disp = ConfusionMatrixDisplay.from_estimator(best_model, X_test, y_test)
-    plt.savefig("confusion_matrix.png")
-    mlflow.log_artifact("confusion_matrix.png")
-    
-    # Artefak 3: Data Latih
+    # Jika requirements.txt belum masuk otomatis, log manual ke folder 'model':
+    mlflow.log_artifact("requirements.txt", artifact_path="model")
     mlflow.log_artifact("data_siap_latih.csv")
-    
-    print("Pelatihan Advanced selesai! Cek hasilnya di website DagsHub kamu.")
+    mlflow.log_artifact("confusion_matrix.png")
